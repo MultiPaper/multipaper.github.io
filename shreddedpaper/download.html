@@ -82,9 +82,14 @@
             .join(' | ');
         document.querySelector('main').appendChild(p);
 
-        if (selectedVersion != latestVersion) {
+        if (selectedVersion < latestVersion) {
             const error = document.createElement('p');
             error.innerHTML = 'Warning: These versions are outdated and may not contain the latest security and stability features.<br/>No support will be given for these builds.';
+            error.style.color = 'red';
+            document.querySelector('main').appendChild(error);
+        } else if (selectedVersion > latestVersion) {
+            const error = document.createElement('p');
+            error.innerHTML = 'Warning: These are development builds! Do not dare try using in production!!!<br/>Please report any bugs you find on the <a href="https://github.com/MultiPaper/ShreddedPaper/issues/">GitHub</a>.';
             error.style.color = 'red';
             document.querySelector('main').appendChild(error);
         } else {
@@ -151,7 +156,7 @@
     const fetchVersions = async (url) => {
         const data = await (await fetch(url)).json();
 
-        const lastestVersion = data.version_groups[data.version_groups.length - 1];
+        const lastestVersion = '1.20'; // data.version_groups[data.version_groups.length - 1]; // TODO REMOVE HARD CODED LATEST VERSION
         let versionGroup;
         if (location.search.length && ~data.version_groups.indexOf(location.search.substr(1))) {
             versionGroup = location.search.substr(1);
