@@ -156,7 +156,7 @@
     const fetchVersions = async (url) => {
         const data = await (await fetch(url)).json();
 
-        const lastestVersion = '1.20'; // data.version_groups[data.version_groups.length - 1]; // TODO REMOVE HARD CODED LATEST VERSION
+        const lastestVersion = data.version_groups[data.version_groups.length - 1];
         let versionGroup;
         if (location.search.length && ~data.version_groups.indexOf(location.search.substr(1))) {
             versionGroup = location.search.substr(1);
